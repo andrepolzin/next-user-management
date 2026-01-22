@@ -33,12 +33,11 @@ export default async function Users() {
             <ul className='flex text-black gap-5'>
                 {usersTest.map(user => (
                     <li key={user.id} className='bg-blue-300 p-5 h-fit rounded-lg '>
-                        {/* <Image alt=''>{user.avatar}</Image> */}
+                        <Image src={user.avatar + "?image=" + user.id} alt={user.name} width={100} height={200} className='rounded-md' />
                         <p>Name: {user.name}</p>
                         <p>Age: {user.age}</p>
                         <p>Occupation: {user.occupation}</p>
                         <p>Email: {user.email}</p>
-
                     </li>
                 ))}
             </ul>
