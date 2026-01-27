@@ -11,9 +11,10 @@ export async function createUser(formData) {
         const email = formData.get("email")
         const occupation = formData.get("occupation")
         const avatar = formData.get("avatar")
-        const age = formData.get("age")
+        const age = Number(formData.get("age"))
 
         if (!name || !email || !occupation || !age) return;
+
 
         let user = {
             name,
@@ -22,6 +23,8 @@ export async function createUser(formData) {
             avatar,
             age
         }
+
+        console.log("user info: ", user)
 
         await prisma.user.create({ data: user })
 
@@ -43,6 +46,13 @@ export async function editUser() {
 
 export async function deleteUser(userId) {
     try {
+        if (!userId) {
+            return {
+                success: false,
+                message: "User id has not been provided"
+            };
+        }
+
         const deletedUser = await prisma.user.delete({
             where: { id: userId }
         })

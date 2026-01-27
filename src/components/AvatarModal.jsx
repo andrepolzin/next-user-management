@@ -10,7 +10,9 @@ export default function AvatarModal() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const res = await fetch('https://i.pravatar.cc/images')
+                const res = await fetch('https://i.pravatar.cc/images', {
+                    mode: "no-cors"
+                })
 
                 if (!res.ok) {
                     throw new Error('Error when fetching data')
