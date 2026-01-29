@@ -2,7 +2,6 @@
 
 import { prisma } from "@/lib/prisma"
 import { revalidatePath } from "next/cache"
-import { redirect } from "next/navigation"
 
 
 export async function createUser(formData) {
@@ -15,6 +14,19 @@ export async function createUser(formData) {
 
         if (!name || !email || !occupation || !age) return;
 
+        console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& before findining unique email')
+        const existingUser = await prisma.user.findUnique({
+            where: { email: email }
+        })
+
+        if (existingUser) {
+            console.log("Email is being used")
+            return {
+                success: false,
+                message: "This e-mail is already being used"
+            }
+        }
+
 
         let user = {
             name,
@@ -25,6 +37,7 @@ export async function createUser(formData) {
         }
 
         console.log("user info: ", user)
+        console.log('---------------------------------------------------------------')
 
         await prisma.user.create({ data: user })
 
@@ -58,6 +71,7 @@ export async function deleteUser(userId) {
         })
 
         console.log('Deleted user:', deletedUser)
+        revalidatePath('/users')
     } catch (error) {
         console.error(error)
 
