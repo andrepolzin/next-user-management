@@ -1,4 +1,4 @@
-
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -24,6 +24,7 @@ export default function Home() {
           On the frontend, I used Tailwind CSS to build a clean and responsive interface. This project helped me improve skills with
           component-based UI, client-side data fetching, and basic application structure, making it a great example of a full-stack project.
         </p>
+        <Link href={"/users"} className="border-1 w-fit p-1 rounded-md bg-cyan-800 text-white hover:bg-blue-400">Add a user</Link>
       </div>
 
     </div>

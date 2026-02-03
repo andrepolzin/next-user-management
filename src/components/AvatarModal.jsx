@@ -31,7 +31,7 @@ export default function AvatarModal() {
 
     }, [])
 
-    console.log(data)
+    console.log("Dentro de AvatarModal", data)
 
     if (loading) return <p>Loading...</p>
     if (error) return <p className='text-red-500'>{error}</p>

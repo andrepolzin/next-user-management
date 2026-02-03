@@ -11,7 +11,7 @@ export default async function Users() {
         orderBy: { createdAt: 'desc' }
     })
 
-    console.log(users)
+    console.log("users at page.jsx: ", users)
 
     const handleDeleteUser = async (userId) => {
         "use server"
