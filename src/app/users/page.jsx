@@ -29,7 +29,7 @@ export default async function Users() {
             <ul className='flex text-black gap-5 w-full'>
                 {users.map(user => (
 
-                    <li key={user.id} className='bg-blue-300 p-5 h-fit rounded-lg w-[300px] '>
+                    <li key={user.id} className='bg-blue-300 p-5 h-fit rounded-lg w-75 '>
                         <div>
                             <Image src={"https://i.pravatar.cc/300?image=60"} alt={user.name} width={100} height={200} className='rounded-md mb-2' />
                             <p>Name: {user.name}</p>

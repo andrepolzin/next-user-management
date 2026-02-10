@@ -14,7 +14,7 @@ export async function createUser(formData) {
 
         if (!name || !email || !occupation || !age) return;
 
-        console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& before findining unique email')
+        // console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& before findining unique email')
         const existingUser = await prisma.user.findUnique({
             where: { email: email }
         })
@@ -53,8 +53,47 @@ export async function createUser(formData) {
 
 }
 
-export async function editUser() {
+export async function editUser(formData) {
+    try {
+        const name = formData.get("name")
+        const email = formData.get("email")
+        const occupation = formData.get("occupation")
+        const avatar = formData.get("avatar")
+        const age = Number(formData.get("age"))
 
+        if (!name || !email || !occupation || !age) return;
+
+        const user = await prisma.user.findUnique({
+            where: { email }
+        })
+
+        let updatedUserInfo = {
+            name,
+            email,
+            occupation,
+            avatar,
+            age
+        }
+
+        const updatedUser = await prisma.user.update({
+            where: { id: user.id },
+            data: updatedUserInfo
+        })
+
+        return {
+            success: true,
+            message: "User has been updated",
+            updatedUser
+        }
+
+    } catch (error) {
+        console.error(error)
+
+        return {
+            success: false,
+            message: "Failed to edit user"
+        }
+    }
 }
 
 export async function deleteUser(userId) {
