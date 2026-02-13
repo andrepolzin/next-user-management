@@ -12,18 +12,22 @@ export const UserForm = ({ isEditing, user }) => {
 
     const handleChange = (event) => {
         const { name, value } = event.target
-        setData({ ...data, name: value })
+        setData(prev => ({ ...prev, [name]: value }))
     }
 
-    const handleEditUser = async () => {
+    const handleEditUser = async (formData) => {
         try {
 
             if (user.name === data.name && user.email === data.email && user.occupation === data.occupation && user.age === data.age) {
                 setError("No changes to update")
+                setTimeout(() => setError(""), 5000)
                 return
             }
 
-            const updatedUser = await editUser()
+            const updatedUser = await editUser(formData)
+
+            console.log(updatedUser)
+            // if (updatedUser.success) 
 
         } catch (error) {
             console.error(error)
@@ -40,15 +44,15 @@ export const UserForm = ({ isEditing, user }) => {
         >
             <h1>{isEditing ? 'Edit User' : 'Add User'}</h1>
             <div className="flex flex-col gap-2">
-                <Image src="https://i.pravatar.cc/300?image=60" alt='default avatar' width={100} height={200} className="rounded-md" />
-                <button onClick={() => setShow(true)} className="text-sm cursor-pointer hover:bg-blue-400 p-1 rounded-md">Pick your avatar</button>
+                <Image src={`https://api.dicebear.com/9.x/notionists/png?seed=${data.name || "Andre"}`} alt='default avatar' width={100} height={300} className="rounded-md" />
+                <button onClick={() => setShow(true)} className="text-sm cursor-pointer hover:bg-blue-400 p-1 rounded-md hover:scale-110 duration-400">Upload an Avatar</button>
             </div>
             <input type="text" name="name" placeholder="Type your name" value={data.name} onChange={handleChange} className="border-2 rounded-md p-2" />
             <input type="email" name="email" placeholder="Type your e-mail" value={data.email} onChange={handleChange} className="border-2 rounded-md p-2" />
             <input type="text" name="occupation" placeholder="Type your occupation" value={data.occupation} onChange={handleChange} className="border-2 rounded-md p-2" />
             <input type="text" name="age" placeholder="Type your age" value={data.age} onChange={handleChange} className="border-2 rounded-md p-2" />
 
-            <button className="p-1 border-2 rounded-md cursor-pointer w-16 hover:bg-blue-400 ">{isEditing ? "Edit" : "Create"}</button>
+            <button className="p-1 border-2 rounded-md cursor-pointer w-16 hover:bg-blue-400 hover:scale-110 duration-400">{isEditing ? "Edit" : "Create"}</button>
             {error && <p className="text-red-500">{error}</p>}
             {show && <AvatarModal />}
         </form>

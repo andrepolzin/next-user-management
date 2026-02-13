@@ -6,7 +6,11 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'i.pravatar.cc'
+        hostname: "i.pravatar.cc"
+      },
+      {
+        protocol: 'https',
+        hostname: "api.dicebear.com"
       }
     ]
   }

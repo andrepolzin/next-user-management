@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/prisma"
 import { revalidatePath } from "next/cache"
+import { redirect } from "next/navigation"
 
 
 export async function createUser(formData) {
@@ -80,20 +81,18 @@ export async function editUser(formData) {
             data: updatedUserInfo
         })
 
-        return {
-            success: true,
-            message: "User has been updated",
-            updatedUser
-        }
+        revalidatePath("/users")
 
     } catch (error) {
-        console.error(error)
-
+        console.error("*****", error)
         return {
             success: false,
             message: "Failed to edit user"
         }
     }
+
+    redirect("/users")
+
 }
 
 export async function deleteUser(userId) {

@@ -11,7 +11,7 @@ export default async function Users() {
         orderBy: { createdAt: 'desc' }
     })
 
-    console.log("users at page.jsx: ", users)
+    // console.log("users at page.jsx: ", users)
 
     const handleDeleteUser = async (userId) => {
         "use server"
@@ -26,10 +26,10 @@ export default async function Users() {
         <div className="flex min-h-screen bg-zinc-50 p-7 gap-7">
             <UserForm />
 
-            <ul className='flex text-black gap-5 w-full'>
+            <ul className='flex text-black gap-5 w-full flex-wrap justify-start'>
                 {users.map(user => (
 
-                    <li key={user.id} className='bg-blue-300 p-5 h-fit rounded-lg w-75 '>
+                    <li key={user.id} className='bg-blue-300 p-5 h-fit rounded-lg w-75 text-white'>
                         <div>
                             <Image src={"https://i.pravatar.cc/300?image=60"} alt={user.name} width={100} height={200} className='rounded-md mb-2' />
                             <p>Name: {user.name}</p>
