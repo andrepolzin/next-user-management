@@ -23,7 +23,7 @@ export default async function Users() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-100 px-4 py-8">
+        <div className="min-h-screen bg-linear-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-100 px-4 py-8">
             <div className="mx-auto flex max-w-6xl flex-col gap-8 lg:flex-row">
                 {/* Form card */}
                 <div className="w-full lg:w-2/5">

@@ -1,5 +1,6 @@
 import { UserForm } from "@/components/UserForm"
 import { prisma } from "@/lib/prisma"
+import Link from "next/link"
 
 export default async function EditUser({ params }) {
     const { id } = await params
@@ -9,8 +10,17 @@ export default async function EditUser({ params }) {
         where: { id }
     })
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-100 px-4 py-10">
+        <div className="min-h-screen bg-linear-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-100 px-4 py-10">
             <div className="mx-auto flex max-w-3xl flex-col gap-6">
+                <div>
+                    <Link
+                        href="/users"
+                        className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-slate-800 bg-slate-900/70 px-3 py-1.5 text-xs font-medium text-slate-300 hover:border-cyan-500/60 hover:bg-cyan-500/10 hover:text-cyan-200 transition-colors"
+                    >
+                        ← Back to users
+                    </Link>
+                </div>
+
                 <div className="flex flex-col gap-2">
                     <p className="text-xs font-medium uppercase tracking-[0.3em] text-cyan-400">
                         Editing user

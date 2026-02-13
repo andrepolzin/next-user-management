@@ -16,7 +16,7 @@ const Header = () => {
         <header className='flex h-20 items-center justify-between border-b border-slate-800 bg-slate-950/95 px-5'>
             <Link href={"/"} className="cursor-pointer">
                 <h1 className='text-lg md:text-2xl font-semibold tracking-tight text-slate-50'>
-                    <span className="bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-400 bg-clip-text text-transparent">
+                    <span className="bg-linear-to-r from-cyan-400 via-sky-400 to-blue-400 bg-clip-text text-transparent">
                         User Management
                     </span>
                 </h1>
