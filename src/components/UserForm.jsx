@@ -8,7 +8,7 @@ import { isRedirectError } from "next/dist/client/components/redirect-error"
 import ImageUI from "./ui/ImageUI"
 
 export const UserForm = ({ isEditing, user }) => {
-    const [data, setData] = useState({ name: user?.name || "", email: user?.email || "", occupation: user?.occupation || "", age: user?.age || "", avatar: user?.avatar || "https://api.dicebear.com/9.x/notionists/png?seed=Andre" })
+    const [data, setData] = useState({ name: user?.name || "", email: user?.email || "", occupation: user?.occupation || "", age: user?.age || "", avatar: user?.avatar || "" })
     const [error, setError] = useState("")
 
     const handleChange = (event) => {
@@ -96,7 +96,7 @@ export const UserForm = ({ isEditing, user }) => {
                     <p className="text-[11px] text-slate-400">
                         Avatar is generated from the user name. You can later add a custom gallery.
                     </p>
-                    <input type="url" name="avatar" value={data.avatar} onChange={handleChange} />
+                    <input type="url" name="avatar" value={data.avatar} onChange={handleChange} className="w-full rounded-xl border border-slate-800 bg-slate-900/70 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/40" />
                 </div>
             </div>
 
