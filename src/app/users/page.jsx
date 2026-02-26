@@ -1,10 +1,9 @@
 
 
 import { prisma } from '@/lib/prisma'
-import Image from 'next/image'
 import { UserForm } from '@/components/UserForm'
-import { deleteUser } from "@/actions/userActions"
 import UserActions from "@/components/ui/userActions"
+import ImageUI from '@/components/ui/ImageUI'
 
 export default async function Users() {
     const users = await prisma.user.findMany({
@@ -12,15 +11,6 @@ export default async function Users() {
     })
 
     // console.log("users at page.jsx: ", users)
-
-    const handleDeleteUser = async (userId) => {
-        "use server"
-        try {
-            const deletedUser = await deleteUser(userId)
-        } catch (error) {
-            throw error
-        }
-    }
 
     return (
         <div className="min-h-screen bg-linear-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-100 px-4 py-8">
@@ -60,14 +50,9 @@ export default async function Users() {
                             >
                                 <div className="flex items-start gap-3">
                                     <div className="relative">
-                                        <div className="absolute -inset-1 rounded-xl bg-gradient-to-tr from-cyan-500/40 via-sky-400/10 to-blue-500/40 opacity-0 blur-md transition-opacity duration-200 group-hover:opacity-100" />
-                                        <Image
-                                            src={"https://i.pravatar.cc/150?img=60"}
-                                            alt={user.name}
-                                            width={64}
-                                            height={64}
-                                            className="relative rounded-xl border border-slate-700/80 object-cover"
-                                        />
+                                        <div className="absolute -inset-1 rounded-xl bg-linear-to-tr from-cyan-500/40 via-sky-400/10 to-blue-500/40 opacity-0 blur-md transition-opacity duration-200 group-hover:opacity-100" />
+
+                                        <ImageUI alt={user.name} url={user.avatar} />
                                     </div>
                                     <div className="flex-1">
                                         <p className="text-sm font-semibold text-slate-50">{user.name}</p>
@@ -90,7 +75,7 @@ export default async function Users() {
                                     <span className="rounded-full bg-slate-800/80 px-3 py-1 text-[10px] font-medium uppercase tracking-wide text-slate-300">
                                         User card
                                     </span>
-                                    <UserActions handleDeleteUser={handleDeleteUser} id={user.id} />
+                                    <UserActions id={user.id} />
                                 </div>
                             </li>
                         ))}

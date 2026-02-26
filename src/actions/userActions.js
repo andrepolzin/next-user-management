@@ -43,12 +43,16 @@ export async function createUser(formData) {
         await prisma.user.create({ data: user })
 
         revalidatePath('/users')
+        return {
+            success: true,
+            message: "User has been successfully created!"
+        }
     } catch (error) {
         console.error(error)
 
         return {
             success: false,
-            message: 'Failed to create user'
+            message: 'Failed to create user!'
         }
     }
 
@@ -110,6 +114,10 @@ export async function deleteUser(userId) {
 
         console.log('Deleted user:', deletedUser)
         revalidatePath('/users')
+        return {
+            success: true,
+            message: 'User has been deleted'
+        }
     } catch (error) {
         console.error(error)
 
@@ -118,6 +126,7 @@ export async function deleteUser(userId) {
             message: 'Failed to delete user'
         }
     }
+
 }
 
 

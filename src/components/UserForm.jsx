@@ -2,12 +2,13 @@
 
 import { createUser, editUser } from "@/actions/userActions"
 import Image from "next/image"
-import AvatarModal from "@/components/AvatarModal"
 import { useState } from "react"
+import { toast } from "sonner"
+import { isRedirectError } from "next/dist/client/components/redirect-error"
+import ImageUI from "./ui/ImageUI"
 
 export const UserForm = ({ isEditing, user }) => {
-    const [show, setShow] = useState(false)
-    const [data, setData] = useState({ name: user?.name || "", email: user?.email || "", occupation: user?.occupation || "", age: user?.age || "" })
+    const [data, setData] = useState({ name: user?.name || "", email: user?.email || "", occupation: user?.occupation || "", age: user?.age || "", avatar: user?.avatar || "https://api.dicebear.com/9.x/notionists/png?seed=Andre" })
     const [error, setError] = useState("")
 
     const handleChange = (event) => {
@@ -15,8 +16,25 @@ export const UserForm = ({ isEditing, user }) => {
         setData(prev => ({ ...prev, [name]: value }))
     }
 
+    const handleValidationData = () => {
+        let isValid = true;
+
+        if (Number(data.age) > 150) {
+            isValid = false
+            toast.warning("Age must be less than 150")
+        } else if (data.name.length > 30) {
+            isValid = false;
+            toast.warning("The name is too long")
+        }
+
+        return isValid;
+
+    }
+
     const handleEditUser = async (formData) => {
         try {
+
+            if (!handleValidationData()) return
 
             if (user.name === data.name && user.email === data.email && user.occupation === data.occupation && user.age === data.age) {
                 setError("No changes to update")
@@ -25,26 +43,42 @@ export const UserForm = ({ isEditing, user }) => {
             }
 
             const updatedUser = await editUser(formData)
-
             console.log(updatedUser)
             // if (updatedUser.success) 
 
         } catch (error) {
-            console.error(error)
+            if (isRedirectError) {
+                toast.success("User has been updated")
+                return
+            }
+            console.log(error)
+            toast.warning("Failed to update user, try again!")
             throw error
         }
+    }
 
+    const handleCreateUser = async (formData) => {
 
+        if (!handleValidationData()) return
+
+        const createdUser = await createUser(formData)
+        console.log(createdUser)
+        if (!createdUser.success) {
+            toast.warning(createdUser.message)
+        } else {
+            toast.success(createdUser.message)
+            setData({ name: "", email: "", occupation: "", age: "" })
+        }
     }
 
     return (
         <form
-            action={isEditing ? handleEditUser : createUser}
+            action={isEditing ? handleEditUser : handleCreateUser}
             className="flex flex-col gap-4"
         >
             <div className="flex items-center justify-between gap-3">
                 <h1 className="text-lg font-semibold text-slate-50">
-                    {isEditing ? 'Edit user' : 'Add user'}
+                    {isEditing ? 'Edit user' : ''}
                 </h1>
                 {error && (
                     <p className="text-xs font-medium text-red-400">
@@ -54,13 +88,7 @@ export const UserForm = ({ isEditing, user }) => {
             </div>
 
             <div className="flex items-center gap-3 rounded-2xl border border-slate-800 bg-slate-900/80 p-3">
-                <Image
-                    src={`https://api.dicebear.com/9.x/notionists/png?seed=${data.name || "Andre"}`}
-                    alt='default avatar'
-                    width={64}
-                    height={64}
-                    className="rounded-xl border border-slate-700/80 object-cover"
-                />
+                <ImageUI alt={data.name} url={data.avatar} />
                 <div className="flex flex-col gap-1">
                     <p className="text-xs font-medium text-slate-100">
                         Auto-generated avatar
@@ -68,13 +96,7 @@ export const UserForm = ({ isEditing, user }) => {
                     <p className="text-[11px] text-slate-400">
                         Avatar is generated from the user name. You can later add a custom gallery.
                     </p>
-                    <button
-                        type="button"
-                        onClick={() => setShow(true)}
-                        className="mt-1 inline-flex w-fit cursor-pointer items-center rounded-lg border border-cyan-500/50 bg-slate-900 px-3 py-1 text-[11px] font-medium text-cyan-300 hover:bg-cyan-500/10 hover:text-cyan-200 transition-colors"
-                    >
-                        Open avatar modal
-                    </button>
+                    <input type="url" name="avatar" value={data.avatar} onChange={handleChange} />
                 </div>
             </div>
 
@@ -119,7 +141,6 @@ export const UserForm = ({ isEditing, user }) => {
                 {isEditing ? "Save changes" : "Create user"}
             </button>
 
-            {show && <AvatarModal />}
         </form>
     )
 }

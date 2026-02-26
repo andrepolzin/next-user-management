@@ -1,9 +1,24 @@
 "use client"
 import { Trash2, SquarePen } from "lucide-react"
 import Link from "next/link"
+import { deleteUser } from "@/actions/userActions"
+import { toast } from "sonner"
 
-export default function UserActions({ handleDeleteUser, id }) {
+export default function UserActions({ id }) {
 
+    const handleDeleteUser = async (userId) => {
+
+        try {
+            const deletedUser = await deleteUser(userId)
+            if (!deletedUser.success) throw new Error(deletedUser.message)
+
+            toast.success("User has been deleted")
+        } catch (error) {
+            console.log(toast)
+            toast.warning("Failed to delete user, try again!")
+            throw error
+        }
+    }
 
     return (
         <div className="flex mt-4 gap-2">
