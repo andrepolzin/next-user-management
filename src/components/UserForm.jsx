@@ -1,7 +1,6 @@
 'use client'
 
 import { createUser, editUser } from "@/actions/userActions"
-import Image from "next/image"
 import { useState } from "react"
 import { toast } from "sonner"
 import { isRedirectError } from "next/dist/client/components/redirect-error"

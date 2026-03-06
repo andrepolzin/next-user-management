@@ -2,6 +2,8 @@ import "./globals.css";
 import Header from '@/components/layout/header/Header'
 import { Footer } from '../components/layout/footer/Footer'
 import { Toaster } from "@/components/ui/sonner";
+import ZoomProvider from "@/context/ZoomProvider";
+import ZoomModal from "@/components/ui/ZoomModal";
 
 export const metadata = {
   title: "User Management",
@@ -12,10 +14,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <Header />
-        <Toaster position="top-right" richColors />
-        {children}
-        <Footer />
+        <ZoomProvider>
+          <Header />
+          <Toaster position="top-right" richColors />
+          {children}
+          <Footer />
+          <ZoomModal />
+        </ZoomProvider>
       </body>
     </html>
   );
