@@ -12,7 +12,7 @@ export default function ZoomModal() {
     return (
 
         <div className="fixed inset-0 flex items-center justify-center bg-black/60">
-            <Image src={imageUrl} alt={imageAlt} width={1000} height={1000} onClick={toggleShow} className="cursor-pointer max-w-full max-h-full object-contain" />
+            <Image src={imageUrl} alt={imageAlt} width={500} height={500} onClick={toggleShow} className="cursor-pointer w-[50%] h-[50%] object-contain" />
         </div>
     )
 }

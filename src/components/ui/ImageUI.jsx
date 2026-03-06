@@ -8,13 +8,13 @@ export default function ImageUI({ url, alt }) {
     const { updateImageData, toggleShow } = useContext(ZoomContext)
 
     const handleZoomImage = () => {
-        updateImageData(url, alt)
+        updateImageData(url || "https://images.unsplash.com/photo-1589571894960-20bbe2828d0a?q=80&w=686&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", alt || "Default avatar")
         toggleShow()
     }
 
     return (
         <Image
-            src={url || "https://i.pravatar.cc/150?img=60"}
+            src={url || "https://images.unsplash.com/photo-1589571894960-20bbe2828d0a?q=80&w=686&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
             alt={alt}
             width={90}
             height={64}
